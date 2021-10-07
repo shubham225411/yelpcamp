@@ -1,4 +1,6 @@
-<% if (messages && messages.length) { %>
+
+<div class="messages" style="display: block;">
+  <% if (messages && messages.length) { %>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
     <%= messages %>  
     
@@ -11,3 +13,10 @@
     
       </div>
 <% } %>
+
+</div>
+<script>
+  setTimeout(function(){
+    document.getElementsByClassName('messages')[0].style.display="none";
+  },5000);
+</script>

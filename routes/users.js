@@ -19,7 +19,7 @@ router.get('/login',users.renderLoginForm)
 //     res.redirect('/campgrounds');
 // })
 
-router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }),users.loginUser )
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/users/login' }),users.loginUser )
 router.get('/logout',users.logOut)
 
 

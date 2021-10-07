@@ -1,6 +1,11 @@
 const User = require("../models/users");
 
 module.exports.renderRegisterForm=(req, res) => {
+    if(req.user)
+    {
+        req.flash('error',"You must be logged-out first");
+        return res.redirect('/home');
+    }
     res.render("users/register");
 }
 
@@ -12,12 +17,12 @@ module.exports.registerUser=async (req, res,next) => {
     req.login(registeredUser,(err)=>{
         if(err)return next(err);
         req.flash('success','registered');
-    res.redirect('/campgrounds')
+    res.redirect('/users/login')
     })
     
     }catch(e){
         req.flash('error',e.message)
-        res.redirect('/register');
+        res.redirect('/users/register');
     }
     
 }
@@ -27,13 +32,12 @@ module.exports.renderLoginForm=(req,res)=>{
 }
 module.exports.loginUser=(req, res) => {
     req.flash('success', 'welcome back!');
-    const redirectUrl = req.session.returnTo || '/campgrounds';
-    delete req.session.returnTo;
-    res.redirect(redirectUrl);
+    
+    res.redirect('/dashboard');
 }
 
 module.exports.logOut=(req,res)=>{
     req.logOut();
     req.flash('success','logged out')
-    res.redirect('/campgrounds');
+    res.redirect('/');
 }

@@ -1,26 +1,26 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">YelpCamp</a>
+        <a class="navbar-brand" href="#">Nodejs App</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="/">Home</a>
-                <a class="nav-link" href="/campgrounds">Campgrounds</a>
-                <a class="nav-link" href="/campgrounds/new">New Campground</a>
+                <a class="nav-link" href="/home">Home</a>
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+               
             </div>
             <!--  -->
            
             <div class="navbar-nav ml-auto">
                 <% if(!currentUser) {%>
                    
-                    <a class="nav-link" href="/login">Login</a>
-                    <a class="nav-link" href="/register">Register</a>
+                    <a class="nav-link" href="/users/login"><button class="btn btn-primary btn-sm rounded-pill">Login</button></a>
+                    <a class="nav-link" href="/users/register"><button class="btn btn-primary btn-sm rounded-pill">Register</button></a>
                     <% } else{%>
-                        <strong class="mt-2"><%= currentUser.username %> </strong>
-                        <a class="nav-link" href="/logout">Logout</a>
+                       <span class="badge bg-success mt-3" style="height: 20px;"> <%= currentUser.username %> </span>
+                        <a class="nav-link" href="/users/logout"><button class="btn btn-danger btn-sm rounded-pill">LogOut</button></a>
                    <% }%>
                     
                    

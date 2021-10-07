@@ -1,19 +1,15 @@
-if(process.env.NODE_ENV!=="production")
-{
-    require('dotenv').config();
-}
+
 
 const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const { campgroundSchema,reviewSchema } = require('./schemas.js');
+
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const methodOverride = require('method-override');
-const Campground = require('./models/campground');
-const joi = require('joi');
+
+
 const User=require('./models/users');
 //passport
 const passport=require('passport');
@@ -23,8 +19,7 @@ const passportLocal=require('passport-local');
 const flash=require('connect-flash')
 
 //routers
-const campgroundRoutes=require('./routes/campgrounds')
-const reviewsRoutes=require('./routes/reviews')
+const indexroutes=require('./routes/index');
 const usersRoutes=require('./routes/users');
 
 //sessions
@@ -43,7 +38,7 @@ const sessionOption={
 
 };
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect('mongodb://localhost:27017/Login', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -66,7 +61,6 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
 
 //flash
 app.use(flash());
@@ -107,42 +101,15 @@ passport.use(new passportLocal(User.authenticate()));
 
 
 //to use all the routes of the campgrounds
-app.use('/campgrounds',campgroundRoutes);
-app.use('/campgrounds/:id/reviews',reviewsRoutes);
-app.use('/',usersRoutes);
-
-
-
-app.post('/', async (req, res) => {
-
-const {user,campname}=req.body;
-console.log(user,campname);
-if( user && !campname)
-{
-    let author= await User.find({"username":{$regex:user}});
-    let camps=await Campground.find({"author":author});
-    res.render('home',{camps})
-}
-if(!user &&campname)
-{
-    let camps=await Campground.find({"title":{$regex:campname}});
-    res.render('home',{camps})
-
-}
-});
+app.use('/',indexroutes);
+app.use('/users',usersRoutes);
 
 
 
 
 
-//handling errors in creating new campground
-// Now that we wrapped all our async functions in catchAsync, we can throw errors as catch block in catchAsync will catch it and pass it to next.
 
-// Previously when colt mentioned about throwing errors, we didn't implement catchAsync that would catch errors in the async functions.
 
-// It may cause issue if we throw errors in a async function without a catch block.
-
-// So with catchAsync wrapping the async function, it is possible to throw new errors.
 
 
 
@@ -162,6 +129,6 @@ app.use((err, req, res, next) => {
 })
 
 
-app.listen(3000, () => {
-    console.log('Serving on port 3000')
+app.listen(4000, () => {
+    console.log('Serving on port 4000')
 })

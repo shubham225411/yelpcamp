@@ -8,7 +8,7 @@ const userSchema=new mongoose.Schema({
     email:{
         type:String,
         required:true,
-        unique:[true,'that email address has already been used']
+        unique:false
     }
 });
 
